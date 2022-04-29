@@ -5,15 +5,28 @@ import ReactDOM from 'react-dom';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import './index.css';
 
+import Play from './pages/play';
+import Guide from './pages/guide';
+import Leaderboard from './pages/leaderboard';
+
+
+import { getChainOptions, WalletProvider } from '@terra-money/wallet-provider'; 
+
+require('dotenv').config()
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
+ getChainOptions().then(chainOptions => {
 ReactDOM.render(
   <React.StrictMode>
+    <WalletProvider {...chainOptions}>
       <div className="App-header">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} />
+            <Route path="/play" element={<Play />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+               <Route path="/guide" element={<Guide />} /> 
           </Routes>
         </BrowserRouter>
 
@@ -31,7 +44,8 @@ ReactDOM.render(
           >{`Made with @${TWITTER_HANDLE}`}</a>
         </div>
       </div>
-
+  </WalletProvider>
   </React.StrictMode>,
   document.getElementById('root')
-);
+  );
+ });
